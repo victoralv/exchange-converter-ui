@@ -142,33 +142,22 @@
             background: white;
         }
 
-        /* Middle column: just the convert button */
+        /* Middle column: arrow separator */
         .middle-col {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 2px;
+            justify-content: flex-end;
+            padding-bottom: 9px;
             flex-shrink: 0;
         }
 
-        .convert-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: opacity 0.15s, transform 0.1s;
-            flex-shrink: 0;
+        .convert-arrow {
+            font-size: 22px;
+            color: #1a73e8;
+            line-height: 1;
+            user-select: none;
         }
-
-        .convert-btn:hover  { opacity: 0.88; }
-        .convert-btn:active { transform: scale(0.93); }
-        .convert-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
 
         /* Output field */
         .field-output {
@@ -281,18 +270,13 @@
                     min="0"
                     step="any"
                     placeholder="Amount"
-                    oninput="onFromChange()"
+                    oninput="doConvert()"
                 />
             </div>
 
-            <!-- Convert button -->
+            <!-- Arrow -->
             <div class="middle-col">
-                <button class="convert-btn" id="convert-btn" onclick="doConvert()" title="Convert">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-                        <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-                    </svg>
-                </button>
+                <span class="convert-arrow">&#x2192;</span>
             </div>
 
             <!-- Destination -->
@@ -437,11 +421,11 @@
             const out = document.getElementById('to-output');
             out.textContent = '—';
             out.classList.add('empty');
+            out.style.fontSize = '';
             document.getElementById('copy-btn').style.display = 'none';
         }
 
         function setLoading(on) {
-            document.getElementById('convert-btn').disabled = on;
             if (on) document.getElementById('rate-val').textContent = '…';
         }
 
@@ -471,27 +455,34 @@
 
         // ── Event handlers ────────────────────────────────────────────────────
         async function onFromCurrencyChange() {
-            clearOutput();
             setLoading(true);
             const result = await fetchRates(document.getElementById('from-select').value);
             setLoading(false);
             applyResult(result);
+            doConvert();
         }
 
         function onToCurrencyChange() {
-            clearOutput();
             refreshRateDisplay();
+            doConvert();
         }
 
         function onFromChange() { clearOutput(); }
 
+        function fitOutputFont(el) {
+            const len = el.textContent.length;
+            el.style.fontSize = len > 12 ? '12px' : len > 9 ? '15px' : len > 6 ? '17px' : '20px';
+        }
+
         function doConvert() {
             const input  = document.getElementById('from-input');
             const amount = parseFloat(input.value);
-            if (isNaN(amount) || amount < 0 || storedRate === 0) { input.focus(); return; }
+            if (isNaN(amount) || input.value === '') { clearOutput(); return; }
+            if (amount < 0 || storedRate === 0) return;
             const out = document.getElementById('to-output');
             out.textContent = (amount * storedRate).toFixed(2);
             out.classList.remove('empty');
+            fitOutputFont(out);
             document.getElementById('copy-btn').style.display = 'inline-flex';
         }
 
@@ -546,6 +537,7 @@
                 const out = document.getElementById('to-output');
                 out.textContent = initResult;
                 out.classList.remove('empty');
+                fitOutputFont(out);
                 document.getElementById('copy-btn').style.display = 'inline-flex';
             }
             if (offline) document.getElementById('offline-pill').style.display = 'inline-flex';

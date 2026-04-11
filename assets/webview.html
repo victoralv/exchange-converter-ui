@@ -322,23 +322,54 @@
             applyDark(next);
         }
 
-        // ── Currency lists ────────────────────────────────────────────────────
-        const FIAT = [
-            'AED','ARS','AUD','BRL','CAD','CHF','CLP','CNY','COP','CZK',
-            'DKK','EGP','EUR','GBP','HKD','HUF','IDR','INR','JPY','KRW',
-            'MXN','MYR','NOK','NZD','PEN','PHP','PLN','RON','RUB','SAR',
-            'SEK','SGD','THB','TRY','USD','VND','ZAR'
+// ── Currency lists ────────────────────────────────────────────────────
+        // Extended FIAT list based on https://latest.currency-api.pages.dev/v1/currencies/usd.json
+        // Combined with original FIAT and sorted.
+        const FIAT = [ // De-duplicated and sorted
+            'AED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'AUD', 'AWG', 'AZN',
+            'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB', 'BRL',
+            'BSD', 'BTN', 'BWP', 'BYN', 'BZD', 'CAD', 'CDF', 'CHF', 'CLP', 'CNY',
+            'COP', 'CRC', 'CUP', 'CVE', 'CZK', 'DJF', 'DKK', 'DOP', 'DZD', 'EGP',
+            'ERN', 'ETB', 'EUR', 'FJD', 'FKP', 'GBP', 'GEL', 'GHS', 'GIP', 'GMD',
+            'GNF', 'GTQ', 'GYD', 'HKD', 'HNL', 'HRK', 'HTG', 'HUF', 'IDR', 'ILS',
+            'INR', 'IQD', 'IRR', 'ISK', 'JMD', 'JOD', 'JPY', 'KES', 'KGS', 'KHR',
+            'KMF', 'KPW', 'KRW', 'KWD', 'KYD', 'KZT', 'LAK', 'LBP', 'LKR', 'LRD',
+            'LSL', 'LYD', 'MAD', 'MDL', 'MGF', 'MKD', 'MMK', 'MNT', 'MOP', 'MRO',
+            'MUR', 'MVR', 'MWK', 'MXN', 'MYR', 'MZN', 'NAD', 'NGN', 'NIO', 'NOK',
+            'NPR', 'NZD', 'OMR', 'PAB', 'PEN', 'PGK', 'PHP', 'PKR', 'PLN', 'PYG',
+            'QAR', 'RON', 'RSD', 'RUB', 'RWF', 'SAR', 'SBD', 'SCR', 'SDG', 'SEK',
+            'SGD', 'SHP', 'SLL', 'SOS', 'SRD', 'SSP', 'STD', 'SVC', 'SYP', 'SZL',
+            'THB', 'TJS', 'TMT', 'TND', 'TOP', 'TRY', 'TTD', 'TWD', 'TZS', 'UAH',
+            'UGX', 'USD', 'UYU', 'UZS', 'VEF', 'VND', 'VUV', 'WST', 'XAF', 'XAG',
+            'XAU', 'XCD', 'XDR', 'XOF', 'XPF', 'YER', 'ZAR', 'ZMK', 'ZMW', 'ZWL'
         ];
+        // Extended CRYPTO list from API, combined with original, de-duplicated and sorted.
         const CRYPTO = [
-            'ADA','AVAX','BNB','BTC','DOGE','DOT','ETH','LINK','LTC',
-            'MATIC','SOL','XLM','XRP'
+            '1INCH', 'AAVE', 'ADA', 'ALGO', 'AMP', 'ANKR', 'APE', 'API3', 'APT', 'AR', 'ARB',
+            'ATOM', 'AVAX', 'BAT', 'BCH', 'BNB', 'BNT', 'BSV', 'BTC', 'BTG', 'BUSD', 'CELO',
+            'CHZ', 'COMP', 'CRO', 'CRV', 'CVX', 'DAI', 'DASH', 'DCR', 'DOGE', 'DOT', 'DYDX',
+            'EGLD', 'ENJ', 'ENS', 'EOS', 'ETC', 'ETH', 'FEI', 'FIL', 'FLOW', 'FRAX', 'FTM',
+            'FTT', 'GALA', 'GMT', 'GNO', 'GRT', 'GT', 'GUSD', 'HBAR', 'ICP', 'ILV', 'IMX',
+            'INJ', 'KAVA', 'KCS', 'KDA', 'KLAY', 'KNC', 'KSM', 'LDO', 'LEO', 'LINK', 'LRC',
+            'LTC', 'LUNA', 'MANA', 'MATIC', 'MKR', 'NEAR', 'NEO', 'NEXO', 'OKB', 'OMG', 'ONE',
+            'OP', 'PAXG', 'QNT', 'QTUM', 'RPL', 'RUNE', 'RVN', 'SAND', 'SHIB', 'SNX', 'SOL',
+            'SUSHI', 'THETA', 'TRU', 'TRX', 'TUSD', 'TWT', 'UNI', 'USDC', 'USDD', 'USDP', 'USDT',
+            'UST', 'VET', 'WAVES', 'WBTC', 'WEMIX', 'XAUT', 'XCH', 'XDC', 'XEC', 'XEM',
+            'XLM', 'XMR', 'XRP', 'XTZ', 'ZEC', 'ZIL', 'ZRX'
         ];
+
+        // FLAG_OVERRIDES remain the same as they cover specific cases already in FIAT.
         const FLAG_OVERRIDES = {
-            EUR: '\uD83C\uDDEA\uD83C\uDDFA', XAF: '\uD83C\uDDE8\uD83C\uDDEB',
-            XOF: '\uD83C\uDDE7\uD83C\uDDEB', XCD: '\uD83C\uDDE6\uD83C\uDDEC',
-            XPF: '\uD83C\uDDF5\uD83C\uDDEB', ANG: '\uD83C\uDDE8\uD83C\uDDFC'
+            EUR: '\uD83C\uDDEA\uD83C\uDDFA', // European Union
+            XAF: '\uD83C\uDDE8\uD83C\uDDEB', // Central African CFA franc (Cameroon)
+            XOF: '\uD83C\uDDE7\uD83C\uDDEB', // West African CFA franc (Benin)
+            XCD: '\uD83C\uDDE6\uD83C\uDDEC', // East Caribbean Dollar (Anguilla)
+            XPF: '\uD83C\uDDF5\uD83C\uDDEB', // CFP Franc (French Polynesia)
+            ANG: '\uD83C\uDDE8\uD83C\uDDFC'  // Netherlands Antilles Guilder (Curaçao)
         };
 
+        // The getFlag function now handles a wider range of fiat currencies
+        // and defaults to a white flag for unknown codes, which is appropriate.
         function getFlag(code) {
             if (CRYPTO.includes(code)) return '\uD83E\uDE99'; // 🪙
             if (FLAG_OVERRIDES[code]) return FLAG_OVERRIDES[code];
@@ -350,6 +381,7 @@
                 );
             } catch(e) { return '\uD83C\uDFF3'; }
         }
+
 
         function buildSelects(fromCode, toCode) {
             [

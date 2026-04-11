@@ -2,7 +2,7 @@
 
 # 💱 Exchange Converter UI — AI Edge Skill
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue?style=flat-square)](https://github.com/victoralv/exchange-converter-ui/releases)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue?style=flat-square)](https://github.com/victoralv/exchange-converter-ui/releases)
 [![Model](https://img.shields.io/badge/model-Gemma--4--E4B--it-orange?style=flat-square&logo=google)](https://ai.google.dev/edge)
 [![Platform](https://img.shields.io/badge/platform-AI_Edge_Gallery-4285F4?style=flat-square&logo=android)](https://github.com/google-ai-edge)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
@@ -41,7 +41,7 @@ Powered by **Gemma 4** running locally on your device. Results appear as an **in
 - **Interactive Webview Card** — Results are displayed as a rich UI card embedded in the chat. Edit the amount, pick a different source or destination currency — all inline, no new screen.
 - **Currency Selectors with Flags** — Both coins show flag emojis (🏳 for crypto, country flags for fiat) in grouped dropdowns (Fiat / Crypto). Changing either triggers a live rate re-fetch.
 - **Dark Mode Toggle** — A 🌙/☀️ toggle in the card header switches the background to dark. Preference is persisted in localStorage across sessions.
-- **Fiat & Crypto Support** — 37 fiat currencies (USD, EUR, GBP, JPY, MXN…) and 13 cryptocurrencies (BTC, ETH, SOL, DOGE, ADA…) available in the selectors.
+- **Fiat & Crypto Support** — Over 160 fiat currencies (USD, EUR, GBP, JPY, MXN…) and more of 110 cryptocurrencies (BTC, ETH, SOL, DOGE, ADA…) available in the selectors.
 - **Offline-First Architecture** — Rates are cached locally after the first fetch. No internet? Cached rates kick in automatically with an ⚠ Offline indicator.
 - **Live Exchange Rates** — Fetches real-time rates from two redundant APIs with automatic failover. Rate date shown in the card footer.
 - **Copy to Clipboard** — A copy button appears on the result field after conversion, letting users copy the value instantly.

@@ -18,8 +18,6 @@ Supports **fiat currencies** (USD, EUR, GBP, JPY, MXN...) and **cryptocurrencies
 - "Convert 0.5 BTC to USD"
 - "How much is 1 ETH in EUR?"
 - "1000 DOGE to GBP"
-- "What currencies are available?"
-- "Help" / "What can you do?"
 
 
 ## Instructions

@@ -7,4 +7,22 @@ metadata:
 
 # Exchange Converter
 
-Extract amount (default 1), FROM code, TO code from the user message (uppercase ISO 4217 or crypto ticker). Call `run_js`: `{"action":"convert","amount":<n>,"from":"<FROM>","to":"<TO>"}`
+Supports **fiat currencies** (USD, EUR, GBP, JPY, MXN...) and **cryptocurrencies** (BTC, ETH, SOL, BNB, XRP, DOGE, ADA, DOT, MATIC, LTC, and hundreds more).
+
+## Examples
+
+- "Convert 100 USD to EUR"
+- "How much is 50 euros in Japanese yen?"
+- "Exchange rate from GBP to USD"
+- "500 MXN to dollars"
+- "Convert 0.5 BTC to USD"
+- "How much is 1 ETH in EUR?"
+- "1000 DOGE to GBP"
+- "What currencies are available?"
+- "Help" / "What can you do?"
+
+
+## Instructions
+
+Extract amount (default 1), FROM code, TO code from the user message (uppercase ISO 4217 or crypto ticker). 
+Call `run_js`: `{"action":"convert","amount":<n>,"from":"<FROM>","to":"<TO>"}`
